@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitácora de Ronda Periódica</title>
+    
+    <!-- Agregar Font Awesome para íconos -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /* Reset de márgenes y paddings */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* Barra de navegación */
+        nav {
+            background-color: #0056b3;
+            padding: 10px 20px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        nav .menu-icon {
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+        }
+
+        /* Menú deslizante */
+        #menu {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #0056b3;
+            z-index: 999;
+            transition: 0.3s;
+            padding-top: 60px;
+        }
+
+        #menu li {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        #menu a {
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            display: block;
+        }
+
+        #menu a:hover {
+            background-color: #003c7d;
+            border-radius: 5px;
+        }
+
+        /* Fondo oscuro para el menú */
+        #menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            display: none;
+        }
+
+        .menu-active + #menu-overlay {
+            display: block;
+        }
+
+        /* Contenido principal */
+        main {
+            padding: 80px 20px 20px 20px;
+        }
+
+        .section {
+            padding: 20px;
+            margin: 10px 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .status.green {
+            color: green;
+        }
+
+        .status.red {
+            color: red;
+        }
+
+        /* Estilos para el formulario */
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button[type="submit"] {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #003c7d;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #222;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Media Queries */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 10px;
+            }
+
+            nav .menu-icon {
+                display: block;
+            }
+
+            .section {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                font-size: 14px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            button {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Barra de navegación -->
+    <nav>
+        <div class="logo">🏢 Bitácora de Ronda</div>
+        <i class="fas fa-bars menu-icon" onclick="toggleMenu()" aria-label="Abrir menú"></i>
+    </nav>
+
+    <!-- Fondo oscuro cuando el menú está activo -->
+    <div id="menu-overlay" onclick="toggleMenu()"></div>
+
+    <!-- Menú deslizante desde la izquierda -->
+    <ul id="menu" role="navigation" aria-hidden="true">
+        <li><a href="#resumen">Resumen Diario</a></li>
+        <li><a href="#inspeccion">Inspección de Áreas</a></li>
+        <li><a href="#infraestructura">Infraestructura Crítica</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+    </ul>
+
+    <!-- Contenido principal -->
+    <main>
+        <section id="resumen" class="section">
+            <h2>Resumen Diario</h2>
+            <p>Fecha y Hora: 
+                <input type="datetime-local" id="datetime-picker" class="datetime-picker">
+            </p>
+            <p>Estado general: Todas las áreas fueron revisadas y operan dentro de los parámetros establecidos. No se han detectado anomalías ni incidencias.</p>
+        </section>
+
+        <section id="inspeccion" class="section">
+            <h2>Inspección de Áreas</h2>
+            <ul>
+                <li>🔒 Ronda Perimetral: <span class="status green">✔️ Todo en orden</span></li>
+                <li>🌳 Superficie General: <span class="status green">✔️ Área despejada de obstáculos</span></li>
+                <li>⚡ Cerco Eléctrico: <span class="status green">✔️ Operativo</span></li>
+                <li>🚪 Pórticos y Accesos: <span class="status green">✔️ Accesos en funcionamiento</span></li>
+                <li>💧 Riegos Automáticos: <span class="status green">✔️ En funcionamiento</span></li>
+                <li>🚇 Perímetro Subterráneo: <span class="status green">✔️ Niveles adecuados</span></li>
+            </ul>
+        </section>
+
+        <section id="infraestructura" class="section">
+            <h2>Infraestructura Crítica</h2>
+            <ul>
+                <li>💦 Sala de Bombas: <span class="status green">✔️ Operativa</span></li>
+                <li>🔋 Grupo Electrógeno: <span class="status green">✔️ Mantenimiento al día</span></li>
+                <li>⚡ Sala Eléctrica: <span class="status green">✔️ Funcional</span></li>
+                <li>🛗 Ascensores 1, 2 y 3: <span class="status green">✔️ Operativos</span></li>
+            </ul>
+        </section>
+
+        <section id="contacto" class="section">
+            <h2>Contacto</h2>
+            <form id="contact-form">
+                <label for="name">Nombre:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Correo electrónico:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="message">Mensaje:</label>
+                <textarea id="message" name="message" required></textarea>
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Bitácora de Ronda Periódica</p>
+    </footer>
+
+    <script>
+        // Función para el menú deslizante
+        function toggleMenu() {
+            const menu = document.getElementById('menu');
+            const overlay = document.getElementById('menu-overlay');
+            
+            menu.classList.toggle('menu-active'); // Alternar el menú
+            overlay.style.display = menu.classList.contains('menu-active') ? 'block' : 'none'; // Mostrar el fondo oscuro
+        }
+
+        // Función para prellenar la fecha y hora en el input
+        window.onload = function() {
+            const datetimeInput = document.getElementById('datetime-picker');
+            const currentDate = new Date().toISOString().slice(0, 16); // Formato correcto para datetime-local
+            datetimeInput.value = currentDate;
+        };
+
+        // Validación del formulario de contacto
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar envío por defecto
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const message = document.getElementById('message').value;
+
+            // Validar campos
+            if (!name || !email || !message) {
+                alert('Por favor, completa todos los campos.');
+                return;
+            }
+
+            // Enviar formulario (simulación)
+            alert('Formulario enviado con éxito');
+        });
+    </script>
+
+</body>
+</html>
